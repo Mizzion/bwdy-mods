@@ -1,0 +1,9 @@
+C:\Users\darcd\Documents\GitHub\bwdy-mods\SDV-Lockpicks\bin\Debug\net6.0\Lockpicks.deps.json
+C:\Users\darcd\Documents\GitHub\bwdy-mods\SDV-Lockpicks\bin\Debug\net6.0\Lockpicks.dll
+C:\Users\darcd\Documents\GitHub\bwdy-mods\SDV-Lockpicks\obj\Debug\net6.0\Lockpicks.csproj.AssemblyReference.cache
+C:\Users\darcd\Documents\GitHub\bwdy-mods\SDV-Lockpicks\obj\Debug\net6.0\Lockpicks.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\darcd\Documents\GitHub\bwdy-mods\SDV-Lockpicks\obj\Debug\net6.0\Lockpicks.AssemblyInfoInputs.cache
+C:\Users\darcd\Documents\GitHub\bwdy-mods\SDV-Lockpicks\obj\Debug\net6.0\Lockpicks.AssemblyInfo.cs
+C:\Users\darcd\Documents\GitHub\bwdy-mods\SDV-Lockpicks\obj\Debug\net6.0\Lockpicks.csproj.CoreCompileInputs.cache
+C:\Users\darcd\Documents\GitHub\bwdy-mods\SDV-Lockpicks\obj\Debug\net6.0\Lockpicks.sourcelink.json
+C:\Users\darcd\Documents\GitHub\bwdy-mods\SDV-Lockpicks\obj\Debug\net6.0\Lockpicks.dll

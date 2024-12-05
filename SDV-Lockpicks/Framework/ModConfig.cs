@@ -17,6 +17,10 @@ public class ModConfig
 {
     public int Price { get; set; } = 15;
     public int BuyPrice { get; set; } = 500;
-    public string CanBuyFrom { get; set; } = "Blacksmith";
-
+    public int FailChance { get; set; } = 25;
+    public bool BypassSellModifier { get; set; } = true;
+    public List<string> CanBuyFrom { get; set; } = new()
+    {
+        "Blacksmith"
+    };
 }

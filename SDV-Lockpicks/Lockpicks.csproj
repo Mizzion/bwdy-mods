@@ -4,6 +4,7 @@
   <RootNamespace>Lockpicks</RootNamespace>
   <Version>1.0.0</Version>
   <TargetFramework>net6.0</TargetFramework>
+  <Nullable>enable</Nullable>
 </PropertyGroup>
 
 <ItemGroup>

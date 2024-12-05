@@ -16,13 +16,13 @@ namespace Lockpicks
 {
     public class ModEntry : Mod
     {
-        internal static Random RNG = new Random(Guid.NewGuid().GetHashCode());
-        internal static HashSet<string> LockCache = new HashSet<string>();
+        private static Random RNG = new Random(Guid.NewGuid().GetHashCode());
+        public static HashSet<string> LockCache = new HashSet<string>();
          
-        private string GenerateCacheKey(string objectType, GameLocation location, float x, float y) { return objectType + "^" + location.Name + "^" + ((int)x).ToString() + "^" + ((int)y).ToString(); }
+        private static string GenerateCacheKey(string objectType, GameLocation location, float x, float y) { return objectType + "^" + location.Name + "^" + ((int)x).ToString() + "^" + ((int)y).ToString(); }
 
-        private ModConfig _config;
-        private IGenericModConfigMenuApi _cfg;
+        private ModConfig? _config;
+        private IGenericModConfigMenuApi? _cfg;
         public override void Entry(IModHelper helper)
         {
             _config = Helper.ReadConfig<ModConfig>();
@@ -30,26 +30,84 @@ namespace Lockpicks
             //Set up translations
             I18n.Init(helper.Translation);
             
+            //Set up commands.
+
+            helper.ConsoleCommands.Add("lockpick_addshop",
+                "Adds shop to the list of places you can buy a lock pick from.\n\nUsage: lockpick_addshop <value>\n- value: The Name of the shop. You can get a list by typing lockpick_listshops",
+                AddShop);
+
+            helper.ConsoleCommands.Add("lockpick_listshops", "Displays a list of shops that you can add lock picks to.", ListShops);
+            
             //Events
-            Helper.Events.GameLoop.DayStarted += (s,e) => { LockCache.Clear(); };
-            Helper.Events.Input.ButtonPressed += (s,e) => { OnInput(e); };
+            Helper.Events.Input.ButtonPressed += OnInput;
             Helper.Events.Multiplayer.ModMessageReceived += OnMultiplayerPacket;
             Helper.Events.GameLoop.GameLaunched += GameLaunched;
-            Helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
             Helper.Events.GameLoop.DayEnding += OnDayEnding;
             Helper.Events.GameLoop.DayStarted += OnDayStarted;
             Helper.Events.Content.AssetRequested += OnAssetRequested;
         }
-
-        private void OnSaveLoaded(object? sender, SaveLoadedEventArgs e)
+        #region "GameLoop Events"
+        private void GameLaunched(object? sender, GameLaunchedEventArgs e)
         {
-            SetUpRooms();
+            _cfg = Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
+            if (_cfg is null || _config is null) return;
+            
+            _cfg.Register(
+                mod: ModManifest,
+                reset: () => _config = new ModConfig(),
+                save: () => Helper.WriteConfig(_config)
+                );
+            
+            _cfg.AddSectionTitle(
+                mod: ModManifest,
+                text: () => "Lockpick Settings",
+                tooltip: null
+                );
+            _cfg.AddNumberOption(
+                mod: ModManifest,
+                name: I18n.Price,
+                tooltip: I18n.PriceDescription,
+                getValue: () => _config.Price,
+                setValue: value => _config.Price = value
+                );
+            _cfg.AddNumberOption(
+                mod: ModManifest,
+                name: I18n.BuyPrice,
+                tooltip: I18n.BuyPriceDescription,
+                getValue: () => _config.BuyPrice,
+                setValue: value => _config.BuyPrice = value
+            );
+            _cfg.AddNumberOption(
+                mod: ModManifest,
+                name: I18n.FailChance,
+                tooltip: I18n.FailChanceDescription,
+                getValue: () => _config.FailChance,
+                setValue: value => _config.FailChance = value
+            );
+            _cfg.AddBoolOption(
+                mod: ModManifest,
+                name: I18n.BypassPriceModifier,
+                tooltip: I18n.BypassPriceModifierDescription,
+                getValue: () => _config.BypassSellModifier,
+                setValue: value => _config.BypassSellModifier = value
+                );
+            /*
+            _cfg.AddSectionTitle(
+                mod: ModManifest,
+                text: I18n.CanBuyFrom,
+                tooltip:null
+                );
+            _cfg.AddParagraph(
+                mod: ModManifest,
+                text: () => _config.CanBuyFrom
+                );*/
         }
-
+        
         private void OnDayEnding(object? sender, DayEndingEventArgs e)
         {
             var curRecipes = Game1.player.craftingRecipes.Pairs.ToDictionary(r => r.Key, r => r.Value);
             var player = Game1.player;
+            Lockpick.TranslatedName = Lockpick.TranslatedName is not null ? Lockpick.TranslatedName : "Errored";
             
             foreach (var cr in curRecipes.Where(cr => cr.Key.Contains(Lockpick.TranslatedName)))
             {
@@ -60,6 +118,11 @@ namespace Lockpicks
 
         private void OnDayStarted(object? sender, DayStartedEventArgs e)
         {
+            //Clear lock cache
+            LockCache.Clear();
+            //Set up rooms
+            SetUpRooms();
+            
             var player = Game1.player;
 
             if (!player.craftingRecipes.ContainsKey(Lockpick.TranslatedName))
@@ -68,7 +131,32 @@ namespace Lockpicks
                 Monitor.Log($"Added Recipe for {Lockpick.TranslatedName}");
             }
         }
-
+        #endregion
+       
+        #region "Input Events"
+        private void OnInput(object?  sender, ButtonPressedEventArgs? e)
+        {
+            if (e.IsSuppressed() || (!e.Button.IsActionButton() && !e.Button.IsUseToolButton()) || Game1.eventUp || !Context.IsPlayerFree) return;
+            Vector2 vector = Utils.GetTargetedTile();
+            string v = Utils.GetAction(Game1.currentLocation, vector);
+            if(v != null && OnTileAction(vector, v)) { Helper.Input.Suppress(e.Button); }
+            else
+            {
+                vector = Utility.getTranslatedVector2(vector, Game1.player.FacingDirection, 0f);
+                vector.Y += 1;
+                v = Utils.GetAction(Game1.currentLocation, vector);
+                if(v != null && OnTileAction(vector, v)) { Helper.Input.Suppress(e.Button); }
+                else
+                {
+                    vector = Game1.player.Tile;
+                    v = Utils.GetAction(Game1.currentLocation, vector);
+                    if (OnTileAction(vector, v)) { Helper.Input.Suppress(e.Button); }
+                }
+            }
+        }
+        #endregion
+        
+        #region "Content Events"
         private void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
         {
             //Set up the lock pick
@@ -76,7 +164,7 @@ namespace Lockpicks
             Lockpick.TranslatedDiscription = I18n.Tooltip();
             Lockpick.Texture = Helper.ModContent.GetInternalAssetName("assets/lockpick.png").ToString()
                 ?.Replace("/", "\\");
-            Lockpick.Price = _config.Price;
+            Lockpick.Price = _config?.Price ?? 0;
             
 
             if (e.NameWithoutLocale.IsEquivalentTo("Data/Objects"))
@@ -141,105 +229,93 @@ namespace Lockpicks
                 e.Edit(asset =>
                 {
                     var data = asset.AsDictionary<string, ShopData>();
-                    //var canBuyFrom = _config.CanBuyFrom.Replace(" ","").Split(',');
-                    //var d = data;
+                    
                     foreach (var shop in data.Data)
                     {
-                        if (shop.Key.Contains("Blacksmith"))
+                        if (_config is not null && _config.CanBuyFrom.Contains(shop.Key))
                         {
                             shop.Value.Items.Add(new ShopItemData()
                             {
                                 Price = _config.BuyPrice,
                                 ItemId = Lockpick.ItemId,
-                                IgnoreShopPriceModifiers = true
+                                IgnoreShopPriceModifiers = _config?.BypassSellModifier ?? true
                             });
                             Monitor.Log($"Added lock pick to shop: {shop.Key}");
-                            /*if (canBuyFrom.Contains(shop.Key))
-                            {
-                                shop.Value.Items.Add(new ShopItemData()
-                                {
-                                    Price = _config.BuyPrice,
-                                    ItemId = Lockpick.ItemId,
-                                    IgnoreShopPriceModifiers = true
-                                });
-                                Monitor.Log($"Added lock pick to shop: {shop.Key}");
-                            }*/
                         }
                     }
                 });
             }
         }
-        private void GameLaunched(object sender, GameLaunchedEventArgs e)
+        
+        #endregion
+        
+        #region "Multiplayer Events"
+        private void OnMultiplayerPacket(object? sender, ModMessageReceivedEventArgs e)
         {
-            _cfg = Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
-            if (_cfg is null) return;
-            
-            _cfg.Register(
-                mod: ModManifest,
-                reset: () => _config = new ModConfig(),
-                save: () => Helper.WriteConfig(_config)
-                );
-            
-            _cfg.AddSectionTitle(
-                mod: ModManifest,
-                text: () => "Lockpick Settings",
-                tooltip: null
-                );
-            _cfg.AddNumberOption(
-                mod: ModManifest,
-                name: I18n.Price,
-                tooltip: I18n.PriceDescription,
-                getValue: () => _config.Price,
-                setValue: value => _config.Price = value
-                );
-            _cfg.AddNumberOption(
-                mod: ModManifest,
-                name: I18n.BuyPrice,
-                tooltip: I18n.BuyPriceDescription,
-                getValue: () => _config.BuyPrice,
-                setValue: value => _config.BuyPrice = value
-            );
-            /*
-            _cfg.AddSectionTitle(
-                mod: ModManifest,
-                text: I18n.CanBuyFrom,
-                tooltip:null
-                );
-            _cfg.AddParagraph(
-                mod: ModManifest,
-                text: () => _config.CanBuyFrom
-                );*/
-        }
-        private void OnInput(ButtonPressedEventArgs e)
-        {
-            if (e.IsSuppressed() || (!e.Button.IsActionButton() && !e.Button.IsUseToolButton()) || Game1.eventUp || !Context.IsPlayerFree) return;
-            Vector2 vector = Utils.GetTargetedTile();
-            string v = Utils.GetAction(Game1.currentLocation, vector);
-            if(v != null && OnTileAction(vector, v)) { Helper.Input.Suppress(e.Button); }
-            else
+            if (e.FromModID != Helper.Multiplayer.ModID) return;
+            if (!Context.IsWorldReady) return; //don't pick locks on the title screen
+            string key = e.ReadAs<string>();
+            if (!LockCache.Contains(key))
             {
-                vector = Utility.getTranslatedVector2(vector, Game1.player.FacingDirection, 0f);
-                vector.Y += 1;
-                v = Utils.GetAction(Game1.currentLocation, vector);
-                if(v != null && OnTileAction(vector, v)) { Helper.Input.Suppress(e.Button); }
-                else
+                string[] split = key.Split('^');
+                string lockType = split[0];
+                string location = split[1];
+                int x = int.Parse(split[2]);
+                int y = int.Parse(split[3]);
+                if(location == Game1.currentLocation.NameOrUniqueName) Game1.playSound("stoneCrack"); Game1.playSound("axchop");
+                if (lockType != "SkullDoor") LockCache.Add(key);
+                if (lockType == "Door")
                 {
-                    vector = Game1.player.Tile;
-                    v = Utils.GetAction(Game1.currentLocation, vector);
-                    if (v != null && OnTileAction(vector, v)) { Helper.Input.Suppress(e.Button); }
+                    Game1.getLocationFromName(location).map.GetLayer("Back").Tiles[x, y].Properties.Remove("TouchAction");
                 }
             }
         }
-
+        #endregion
+        
         #region "Custom Methods"
 
+        private void AddShop(string command, string[] args)
+        {
+            var validShops = GetShops();
+
+            if (validShops.Contains(args[0]) && _config is not null && !_config.CanBuyFrom.Contains(args[0]))
+            {
+                _config.CanBuyFrom.Add(args[0]);
+                Helper.WriteConfig(_config);
+                _config = Helper.ReadConfig<ModConfig>();
+                Helper.GameContent.InvalidateCache("Data/Shops");
+                Monitor.Log($"Added {args[0]} to the places you can buy lockpicks.", LogLevel.Info);
+            }
+            else
+            {
+                Monitor.Log($"{args[0]} wasn't a valid shop name. Please use lockpick_listshops to get the list.");
+            }
+        }
+
+        private void ListShops(string command, string[] args)
+        {
+            Monitor.Log(GetShops().Aggregate("", (current, shop) => current + " " +shop), LogLevel.Info);
+        }
+
+        private static List<string> GetShops()
+        {
+            var outPut = new List<string>();
+            var shops = DataLoader.Shops(Game1.content);
+
+            foreach (var shop in shops.Where(shop => !outPut.Contains(shop.Key)))
+            {
+                outPut.Add(shop.Key);
+            }
+
+            return outPut;
+        }
         private void SetUpRooms()
         {
             // add darkroom
             if (Game1.getLocationFromName("Darkroom") == null)
             {
                 //Helper.GameContent.Load<Map>("Maps\\Darkroom");
-                Game1.content.Load<xTile.Map>("Maps\\Darkroom");
+                Game1.content.Load<Map>("Maps\\Darkroom");
                 Game1.locations.Add(new GameLocation("Maps\\Darkroom", "Darkroom"));
                 var darkroom = Game1.getLocationFromName("Darkroom");
                 darkroom.resetForPlayerEntry();
@@ -248,7 +324,7 @@ namespace Lockpicks
             //add marniebarn
             if (Game1.getLocationFromName("MarnieBarn") == null)
             {
-                Game1.content.Load<xTile.Map>("Maps\\MarnieBarn");
+                Game1.content.Load<Map>("Maps\\MarnieBarn");
                 Game1.locations.Add(new GameLocation("Maps\\MarnieBarn", "MarnieBarn"));
                 var marniebarn = Game1.getLocationFromName("MarnieBarn");
                 marniebarn.resetForPlayerEntry();
@@ -257,20 +333,20 @@ namespace Lockpicks
                 buggedwarp.TargetName = "Forest";
                 buggedwarp.TargetX = 97;
                 buggedwarp.TargetY = 16;
-                //and lets add a warp from the yard back inside
+                //and let's add a warp from the yard back inside
                 var forest = Game1.getLocationFromName("Forest") as Forest;
-                forest?.warps.Add(new StardewValley.Warp(96, 15, "MarnieBarn", 11, 13, false));
-                forest?.warps.Add(new StardewValley.Warp(97, 15, "MarnieBarn", 11, 13, false));
-                forest?.warps.Add(new StardewValley.Warp(98, 15, "MarnieBarn", 11, 13, false));
-                forest?.warps.Add(new StardewValley.Warp(99, 15, "MarnieBarn", 11, 13, false));
+                forest?.warps.Add(new Warp(96, 15, "MarnieBarn", 11, 13, false));
+                forest?.warps.Add(new Warp(97, 15, "MarnieBarn", 11, 13, false));
+                forest?.warps.Add(new Warp(98, 15, "MarnieBarn", 11, 13, false));
+                forest?.warps.Add(new Warp(99, 15, "MarnieBarn", 11, 13, false));
                 marniebarn.warps.Add(new Warp(3, 9, "AnimalShop", 30, 14, false));
             }
         }
         private bool OnTileAction(Vector2 vector, string action)
         {
-            Monitor.Log(action, LogLevel.Alert);
-            var parameters = action.Split(' ');
-            if (parameters.Length < 1) return false;
+            var parameters = action?.Split(' ');
+            if (parameters is null || parameters.Length < 1 || action is null) return false;
+            //Monitor.Log(action, LogLevel.Alert);
             bool lockFound = false;
             switch (parameters[0])
             {
@@ -348,9 +424,9 @@ namespace Lockpicks
                         if (a == "No" || !a.StartsWith("l^")) return;
                         var p = a.Substring(2).Split('^');
                         if (p.Length != 3) return;
-                        var rng = RNG.Next(25);
-                        Monitor.Log($"RNG Was : {rng} of 25");
-                        if (rng == 0) //chance of breaking
+                        var rng = _config is not null && _config.FailChance >= 0 && _config.FailChance <= 100 ? RNG.Next(100) : RNG.Next(0);
+                        //Monitor.Log($"RNG Was : {rng} of {_config?.FailChance}");
+                        if (rng <= _config?.FailChance) //chance of breaking
                         {
                             Game1.player.removeFirstOfThisItemFromInventory(Lockpick.ItemId);
                             Game1.showRedMessage(I18n.Broke());
@@ -422,26 +498,7 @@ namespace Lockpicks
             }
         }
 
-        private void OnMultiplayerPacket(object sender, ModMessageReceivedEventArgs e)
-        {
-            if (e.FromModID != Helper.Multiplayer.ModID) return;
-            if (!Context.IsWorldReady) return; //don't pick locks on the title screen
-            string key = e.ReadAs<string>();
-            if (!LockCache.Contains(key))
-            {
-                string[] split = key.Split('^');
-                string lockType = split[0];
-                string location = split[1];
-                int x = int.Parse(split[2]);
-                int y = int.Parse(split[3]);
-                if(location == Game1.currentLocation.NameOrUniqueName) Game1.playSound("stoneCrack"); Game1.playSound("axchop");
-                if (lockType != "SkullDoor") LockCache.Add(key);
-                if (lockType == "Door")
-                {
-                    Game1.getLocationFromName(location).map.GetLayer("Back").Tiles[x, y].Properties.Remove("TouchAction");
-                }
-            }
-        }
+        
 
         private void Warp(bool picked, string sound, string destination, int x, int y)
         {
