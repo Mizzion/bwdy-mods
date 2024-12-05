@@ -1,0 +1,15 @@
+﻿{
+  "yes": "是",
+  "no": "没有",
+  "use": "使用锁定工具？",
+  "tool": "开锁",
+  "tooltip": "解锁工具",
+  "broke": "工具坏了!",
+  "complex": "锁太复杂了.",
+  "price": "Sell Price",
+  "price-description": "How much you can sell each lock pick for.",
+  "buy-price": "Buy Price",
+  "buy-price-description": "How much each lock pick costs to buy",
+  "can-buy-from": "Can Buy From",
+  "can-buy-from-description": "Which stores can you buy lock picks from. Check the mod page for a default list of names."
+}

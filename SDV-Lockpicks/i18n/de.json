@@ -1,0 +1,15 @@
+{
+  "yes": "Ja",
+  "no": "Nein",
+  "use": "Sperrwerkzeug verwenden?",
+  "tool": "Sperrwerkzeug",
+  "tooltip": "Ein Werkzeug zum �ffnen von verschlossenen T�ren.",
+  "broke": "Das Werkzeug ist kaputt!",
+  "complex": "Diese Sperre ist zu kompliziert.",
+  "price": "Sell Price",
+  "price-description": "How much you can sell each lock pick for.",
+  "buy-price": "Buy Price",
+  "buy-price-description": "How much each lock pick costs to buy",
+  "can-buy-from": "Can Buy From",
+  "can-buy-from-description": "Which stores can you buy lock picks from. Check the mod page for a default list of names."
+}

@@ -1,0 +1,15 @@
+﻿{
+  "yes": "예",
+  "no": "아니",
+  "use": "잠금 도구를 사용 하시겠습니까?",
+  "tool": "잠금 도구",
+  "tooltip": "잠긴 문을 우회 할 때 사용하십시오.",
+  "broke": "도구가 고장 났어요!",
+  "complex": "이 자물쇠는 매우 복잡합니다.",
+  "price": "Sell Price",
+  "price-description": "How much you can sell each lock pick for.",
+  "buy-price": "Buy Price",
+  "buy-price-description": "How much each lock pick costs to buy",
+  "can-buy-from": "Can Buy From",
+  "can-buy-from-description": "Which stores can you buy lock picks from. Check the mod page for a default list of names."
+}

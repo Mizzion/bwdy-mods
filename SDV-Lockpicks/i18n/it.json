@@ -1,0 +1,15 @@
+{
+  "yes": "S�",
+  "no": "No",
+  "use": "Usa il grimaldello?",
+  "tool": "Grimaldello",
+  "tooltip": "Usalo per aprire le porte bloccate.",
+  "broke": "Gli strumenti si sono spezzati!",
+  "complex": "Questo blocco � troppo complicato.",
+  "price": "Sell Price",
+  "price-description": "How much you can sell each lock pick for.",
+  "buy-price": "Buy Price",
+  "buy-price-description": "How much each lock pick costs to buy",
+  "can-buy-from": "Can Buy From",
+  "can-buy-from-description": "Which stores can you buy lock picks from. Check the mod page for a default list of names."
+}

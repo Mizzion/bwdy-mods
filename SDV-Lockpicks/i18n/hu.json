@@ -1,0 +1,15 @@
+{
+  "yes": "Igen",
+  "no": "Nem",
+  "use": "Haszn�ljon egy z�rkiv�laszt�st?",
+  "tool": "Z�rfelt�r�s",
+  "tooltip": "Szersz�m a z�rt ajt�k megnyit�s�hoz.",
+  "broke": "A k�sz�l�k megt�rt.",
+  "complex": "Ez a z�r t�l bonyolult a nyit�shoz.",
+  "price": "Sell Price",
+  "price-description": "How much you can sell each lock pick for.",
+  "buy-price": "Buy Price",
+  "buy-price-description": "How much each lock pick costs to buy",
+  "can-buy-from": "Can Buy From",
+  "can-buy-from-description": "Which stores can you buy lock picks from. Check the mod page for a default list of names."
+}

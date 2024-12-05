@@ -1,0 +1,19 @@
+{
+  "yes": "Yes",
+  "no": "No",
+  "use": "Use lockpick?",
+  "tool": "Lockpick",
+  "tooltip": "Used to bypass locked doors.",
+  "broke": "The lockpick broke!",
+  "complex": "The lock is too complex to open with a lockpick.",
+  "price": "Sell Price",
+  "price-description": "How much you can sell each lock pick for.",
+  "buy-price": "Buy Price",
+  "buy-price-description": "How much each lock pick costs to buy",
+  "can-buy-from": "Can Buy From",
+  "can-buy-from-description": "Which stores can you buy lock picks from. Check the mod page for a default list of names.",
+  "bypass-price-modifier": "Bypass Shop Buy Modifier",
+  "bypass-price-modifier-description": "Whether or not the shops shop modifier should be bypassed. Example Pierre sells for 2x the item price.",
+  "fail-chance": "Failure Chance",
+  "fail-chance-description": "What is the chance that the lock pick will break. Chance needs to be 1 - 100"
+}

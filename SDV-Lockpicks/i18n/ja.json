@@ -1,0 +1,15 @@
+﻿{
+  "yes": "はい",
+  "no": "いいえ",
+  "use": "ロックツールを使用しますか？",
+  "tool": "ピッキング用品",
+  "tooltip": "ロックされたドアを迂回するためにこれを使用してください。",
+  "broke": "ツールが壊れています！",
+  "complex": "このロックはとても複雑です。",
+  "price": "Sell Price",
+  "price-description": "How much you can sell each lock pick for.",
+  "buy-price": "Buy Price",
+  "buy-price-description": "How much each lock pick costs to buy",
+  "can-buy-from": "Can Buy From",
+  "can-buy-from-description": "Which stores can you buy lock picks from. Check the mod page for a default list of names."
+}

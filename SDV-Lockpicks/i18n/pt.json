@@ -1,0 +1,15 @@
+{
+  "yes": "sim",
+  "no": "n�o",
+  "use": "usar ferramenta de bloqueio?",
+  "tool": "escolha de bloqueio",
+  "tooltip": "use para contornar portas trancadas.",
+  "broke": "a ferramenta est� quebrada!",
+  "complex": "a fechadura � muito complicada.",
+  "price": "Sell Price",
+  "price-description": "How much you can sell each lock pick for.",
+  "buy-price": "Buy Price",
+  "buy-price-description": "How much each lock pick costs to buy",
+  "can-buy-from": "Can Buy From",
+  "can-buy-from-description": "Which stores can you buy lock picks from. Check the mod page for a default list of names."
+}
