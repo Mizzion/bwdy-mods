@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "y8oEJnwxR9E=",
+  "dgSpecHash": "0rp1lAcS7OE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\darcd\\RiderProjects\\bwdy-sdv-mods\\SDV-Lockpicks\\Lockpicks.csproj",
+  "projectFilePath": "C:\\Users\\darcd\\Documents\\GitHub\\bwdy-mods\\SDV-Lockpicks\\Lockpicks.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\darcd\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.2\\microsoft.codeanalysis.analyzers.3.3.2.nupkg.sha512",
     "C:\\Users\\darcd\\.nuget\\packages\\microsoft.codeanalysis.common\\4.0.1\\microsoft.codeanalysis.common.4.0.1.nupkg.sha512",

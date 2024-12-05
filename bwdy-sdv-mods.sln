@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sleepovers", "SDV-Sleepover
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starbot", "SDV-Starbot\Starbot.csproj", "{155CE097-B50B-475D-B420-8060A092C267}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleSeeds", "..\..\..\Desktop\SDV_Mods_I_Use\PeopleSeeds\PeopleSeeds.csproj", "{81E829C0-9684-46E2-879B-0734005CDD43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,5 +30,9 @@ Global
 		{37D18216-6C50-4F25-9D6E-D719CF635FF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37D18216-6C50-4F25-9D6E-D719CF635FF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37D18216-6C50-4F25-9D6E-D719CF635FF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81E829C0-9684-46E2-879B-0734005CDD43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81E829C0-9684-46E2-879B-0734005CDD43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81E829C0-9684-46E2-879B-0734005CDD43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81E829C0-9684-46E2-879B-0734005CDD43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

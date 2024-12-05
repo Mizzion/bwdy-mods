@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\darcd\\RiderProjects\\bwdy-sdv-mods\\SDV-Lockpicks\\Lockpicks.csproj": {}
+    "C:\\Users\\darcd\\Documents\\GitHub\\bwdy-mods\\SDV-Lockpicks\\Lockpicks.csproj": {}
   },
   "projects": {
-    "C:\\Users\\darcd\\RiderProjects\\bwdy-sdv-mods\\SDV-Lockpicks\\Lockpicks.csproj": {
+    "C:\\Users\\darcd\\Documents\\GitHub\\bwdy-mods\\SDV-Lockpicks\\Lockpicks.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\darcd\\RiderProjects\\bwdy-sdv-mods\\SDV-Lockpicks\\Lockpicks.csproj",
+        "projectUniqueName": "C:\\Users\\darcd\\Documents\\GitHub\\bwdy-mods\\SDV-Lockpicks\\Lockpicks.csproj",
         "projectName": "Lockpicks",
-        "projectPath": "C:\\Users\\darcd\\RiderProjects\\bwdy-sdv-mods\\SDV-Lockpicks\\Lockpicks.csproj",
+        "projectPath": "C:\\Users\\darcd\\Documents\\GitHub\\bwdy-mods\\SDV-Lockpicks\\Lockpicks.csproj",
         "packagesPath": "C:\\Users\\darcd\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\darcd\\RiderProjects\\bwdy-sdv-mods\\SDV-Lockpicks\\obj\\",
+        "outputPath": "C:\\Users\\darcd\\Documents\\GitHub\\bwdy-mods\\SDV-Lockpicks\\obj\\",
         "projectStyle": "PackageReference",
         "UsingMicrosoftNETSdk": false,
         "fallbackFolders": [
