@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>PeopleSeeds</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>net461</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="StardewModdingAPI" />
+    <Reference Include="bwdyworks" />
+    <Reference Include="Stardew Valley">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Stardew Valley\Stardew Valley.dll</HintPath>
+    </Reference>
+    <Reference Include="Netcode" />
+    <Reference Include="Microsoft.Xna.Framework" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics" />
+    <Reference Include="xTile">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Stardew Valley\xTile.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.3.2" />
+    <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.2.0" />
+  </ItemGroup>
+</Project>

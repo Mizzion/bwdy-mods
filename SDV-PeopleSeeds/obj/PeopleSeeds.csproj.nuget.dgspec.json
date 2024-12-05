@@ -1,0 +1,74 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\darcd\\Desktop\\SDV_Mods_I_Use\\PeopleSeeds\\PeopleSeeds.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\darcd\\Desktop\\SDV_Mods_I_Use\\PeopleSeeds\\PeopleSeeds.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\darcd\\Desktop\\SDV_Mods_I_Use\\PeopleSeeds\\PeopleSeeds.csproj",
+        "projectName": "PeopleSeeds",
+        "projectPath": "C:\\Users\\darcd\\Desktop\\SDV_Mods_I_Use\\PeopleSeeds\\PeopleSeeds.csproj",
+        "packagesPath": "C:\\Users\\darcd\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\darcd\\Desktop\\SDV_Mods_I_Use\\PeopleSeeds\\obj\\",
+        "projectStyle": "PackageReference",
+        "UsingMicrosoftNETSdk": false,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\darcd\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net461"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "c:\\program files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net461": {
+            "targetAlias": "net461",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net461": {
+          "targetAlias": "net461",
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.3, )",
+              "autoReferenced": true
+            },
+            "Pathoschild.Stardew.ModBuildConfig": {
+              "target": "Package",
+              "version": "[4.3.2, )"
+            },
+            "Pathoschild.Stardew.ModTranslationClassBuilder": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
